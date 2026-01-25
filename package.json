@@ -1,0 +1,59 @@
+{
+  "name": "@outloud/birth-number",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "TypeScript library for parsing, validating, and extracting information from Slovak and Czech birth numbers (rodné číslo).",
+  "homepage": "https://github.com/madebyoutloud/birth-number",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/madebyoutloud/birth-number.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "dist"
+  ],
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "source": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "imports": {
+    "#/*": "./src/*.js"
+  },
+  "keywords": [
+    "slovakia",
+    "birth",
+    "number",
+    "validator",
+    "rodnecislo"
+  ],
+  "scripts": {
+    "dev": "vitest dev",
+    "pretest": "pnpm run lint && pnpm run typecheck",
+    "test": "pnpm run quick:test",
+    "quick:test": "vitest run",
+    "bench": "vitest bench",
+    "build": "tsdown",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "typecheck": "tsc --project tsconfig.build.json --noEmit",
+    "prepack": "pnpm build",
+    "release": "release-it"
+  },
+  "devDependencies": {
+    "@outloud/eslint-config": "^2.0.7",
+    "@types/node": "^24.10.0",
+    "eslint": "^9.39.0",
+    "release-it": "^19.0.5",
+    "tsdown": "^0.15.12",
+    "typescript": "~5.8",
+    "vitest": "^1.5.0"
+  }
+}

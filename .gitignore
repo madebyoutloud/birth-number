@@ -1,0 +1,14 @@
+node_modules
+.npmrc
+
+coverage
+dist
+.vscode/
+tmp/*
+
+.DS_STORE
+.idea
+idea.md
+*.log
+
+!.gitkeep
