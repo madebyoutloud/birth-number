@@ -2,6 +2,6 @@ import { BirthNumber } from './birth_number.js'
 
 export { BirthNumber } from './birth_number.js'
 
-export function birthNumber(value: string) {
+export function parseBirthNumber(value: string) {
   return new BirthNumber(value)
 }

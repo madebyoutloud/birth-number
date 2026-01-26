@@ -1,6 +1,6 @@
 const Constants = {
   regex: /^(\d\d)(\d\d)(\d\d)\/?(\d\d\d\d?)$/,
-  serialNumberLength: 4,
+  longSerialNumberLength: 4,
   modulo: 11,
   moduleResult: 0,
   moduleExceptionValue: 10,
@@ -29,12 +29,29 @@ export class BirthNumber {
   private $isForeign = false
   private isLongFormat = false
   private error?: string
-  private components?: Record<keyof typeof Components, string>
+  private components: Record<keyof typeof Components, string> = {
+    year: '',
+    month: '',
+    date: '',
+    serialNumber: '',
+  }
 
   private $birthDate?: Record<'year' | 'month' | 'date', number>
 
   constructor(value: string) {
     this.parse(value)
+  }
+
+  get value() {
+    const { year, month, date, serialNumber } = this.components
+
+    return `${year}${month}${date}${serialNumber}`
+  }
+
+  get formattedValue() {
+    const { year, month, date, serialNumber } = this.components
+
+    return `${year}${month}${date}/${serialNumber}`
   }
 
   get gender() {
@@ -69,8 +86,8 @@ export class BirthNumber {
     return new Date(this.$birthDate.year, this.$birthDate.month, this.$birthDate.date)
   }
 
-  isAdult(adulthood = Constants.adulthood) {
-    return this.age >= adulthood
+  get isAdult() {
+    return this.age >= Constants.adulthood
   }
 
   get age() {
@@ -113,7 +130,7 @@ export class BirthNumber {
       serialNumber: match[Components.serialNumber]!,
     }
 
-    this.isLongFormat = this.components.serialNumber.length === Constants.serialNumberLength
+    this.isLongFormat = this.components.serialNumber.length === Constants.longSerialNumberLength
 
     if (this.isLongFormat) {
       const birthNumber = value.replace('/', '')
@@ -137,8 +154,9 @@ export class BirthNumber {
     return this.parseBirthDate()
   }
 
+  // eslint-disable-next-line complexity
   private parseBirthDate() {
-    let year = Number(this.components!.year)
+    let year = Number(this.components.year)
 
     if (!this.isLongFormat && year <= 53) {
       // until 31.12.1953
@@ -156,7 +174,7 @@ export class BirthNumber {
       return false
     }
 
-    let month = Number(this.components!.month)
+    let month = Number(this.components.month)
 
     // Women have month + 50
     if (month > Constants.womanMonthAddition) {
@@ -173,7 +191,7 @@ export class BirthNumber {
     // Ok
     month -= Constants.monthOffset
 
-    const date = Number(this.components!.date)
+    const date = Number(this.components.date)
 
     this.$birthDate = { year, month, date }
 
