@@ -10,6 +10,7 @@ const Constants = {
   monthOffset: 1,
   womanMonthAddition: 50,
   foreignMonthAddition: 20,
+  maxAge: 100,
 }
 
 enum Components {
@@ -59,7 +60,7 @@ export class BirthNumber {
   }
 
   get isValid() {
-    return !this.error && this.age >= Constants.ageWhenBorn
+    return !this.error && this.age >= Constants.ageWhenBorn && this.age <= Constants.maxAge
   }
 
   get isMale() {
